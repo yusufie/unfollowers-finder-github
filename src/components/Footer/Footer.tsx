@@ -1,12 +1,12 @@
 import { ModeToggle } from "@/components/ui/theme-toggle";
 import { Card, CardHeader, CardTitle, } from "@/components/ui/card"
 
-const Navbar: React.FC = () => {
+const Footer: React.FC = () => {
   return (
-    <Card className="flex flex-row justify-center items-center gap-4 w-1/2 h-12" >
+    <Card className=" fixed bottom-8 flex flex-row justify-center items-center gap-4 w-1/2 h-12" >
 
       <CardHeader>
-        <CardTitle>GitHub Unfollowers Finder</CardTitle>
+        <CardTitle>Star GitHub Repository </CardTitle>
       </CardHeader>
 
       <ModeToggle />
@@ -14,4 +14,4 @@ const Navbar: React.FC = () => {
   )
 }
 
-export default Navbar
+export default Footer

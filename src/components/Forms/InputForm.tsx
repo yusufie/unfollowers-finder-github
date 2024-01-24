@@ -1,4 +1,6 @@
 "use client"
+import * as React from "react"
+import useSWR from 'swr';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -14,13 +16,17 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { toast } from "@/components/ui/use-toast"
 
 const FormSchema = z.object({
   username: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
 })
+
+const fetcher = async (url: any) => {
+  const response = await fetch(url);
+  return response.json();
+};
 
 export default function InputForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -30,18 +36,69 @@ export default function InputForm() {
     },
   })
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
+  // SWR Hooks for Following and Followers
+  const { data: followingData } = useSWR(
+    form.watch('username') ? `https://api.github.com/users/${form.watch('username')}/following?per_page=100` : null,
+    fetcher
+  );
+
+  const { data: followersData } = useSWR(
+    form.watch('username') ? `https://api.github.com/users/${form.watch('username')}/followers?per_page=100` : null,
+    fetcher
+  );
+
+    // loading state while the API request is in progress
+    const [loading, setLoading] = React.useState(false);
+    // State to store unfollowers
+    const [unfollowers, setUnfollowers] = React.useState<any[]>([]);
+
+  // Function to handle form submission
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+
+    // Set loading to true while fetching data
+    setLoading(true);
+
+    // Access followingData and followersData here
+    if (followingData && followersData) {
+      // Fetch all pages for followings and followers
+      const allFollowings = await fetchAllPages(`https://api.github.com/users/${data.username}/following?per_page=100`);
+      const allFollowers = await fetchAllPages(`https://api.github.com/users/${data.username}/followers?per_page=100`);
+
+      // Identify users who are not following back
+      const notFollowing = allFollowings.filter((follow: any) => (
+        !allFollowers.some((follower:any) => follower.login === follow.login)
+      ));
+
+      // Update state to store unfollowers
+      setUnfollowers(notFollowing);
+    }
+
+    // Set loading back to false after fetching data
+    setLoading(false);
   }
 
+  // Function to fetch all pages for a paginated API
+  const fetchAllPages = async (url: any) => {
+    let allData: any = [];
+    let page = 1;
+
+    while (true) {
+      const response = await fetch(`${url}&page=${page}`);
+      const data = await response.json();
+
+      if (data.length === 0) {
+        break;
+      }
+
+      allData = allData.concat(data);
+      page++;
+    }
+
+    return allData;
+  };
+
   return (
+    <>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-1/2 space-y-6">
         <FormField
@@ -54,14 +111,38 @@ export default function InputForm() {
                 <Input placeholder="Username" {...field} />
               </FormControl>
               <FormDescription>
-                This is your public display name.
+                Find out who unfollowed you on GitHub
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit">
+          {loading && ( 
+            <span> loading... </span>
+          ) || (
+            <span> Get Unfollowers </span>
+          )}
+        </Button>
       </form>
     </Form>
+
+    {loading ? (
+        <div className="mt-4">Loading...</div>
+      ) : (
+        <>
+          {unfollowers.length > 0 && (
+            <div className="mt-4">
+              <h2 className="text-xl font-semibold">Unfollowers:</h2>
+              <ul>
+                {unfollowers.map((unfollower) => (
+                  <li key={unfollower.id}>{unfollower.login}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </>
+      )}
+    </>
   )
 }

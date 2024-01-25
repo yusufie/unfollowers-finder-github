@@ -96,7 +96,7 @@ export default function InputForm() {
   return (
     <>
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-row items-center justify-center w-full max-w-[50rem]  gap-16 text-base">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-row items-center justify-center w-full max-w-[50rem] max-lg:w-[25rem] gap-16 max-lg:gap-4 text-base">
         <FormField
           control={form.control}
           name="username"
@@ -127,11 +127,11 @@ export default function InputForm() {
     </Form>
 
     {loading ? (
-        <div className="grid grid-cols-2 gap-4 " >
+        <div className="grid grid-cols-2 gap-4 max-lg:grid-cols-1 " >
           <SkeletonDemo />
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-4 pb-20 " >
+        <div className="grid grid-cols-2 gap-4 pb-20 max-lg:grid-cols-1" >
           {unfollowers.length > 0 && (
       
               unfollowers.map((unfollower) => (

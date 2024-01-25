@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Unfollowers Finder for GitHub
 
-## Getting Started
+Unfollowers Finder for GitHub is a web application that helps you identify users you are following on GitHub but who are not following you back. This tool simplifies the process of managing your GitHub network and staying informed about your connections.
 
-First, run the development server:
+## Live Demo
+Check out the live demo of Unfollowers Finder for GitHub: [https://unfollowers-finder-github.vercel.app/](https://unfollowers-finder-github.vercel.app/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+![Unfollowers Finder](/public/images/unfollowers-finder-github.gif)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Table of Contents
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- [Features](#features)
+- [Technologies](#technologies)
+- [Installation](#installation)
+- [Contributing](#contributing)
+- [License](#license)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Features
 
-## Learn More
+- **Identify Unfollowers:** Find GitHub users who are not following you back.
+- **Interactive Interface:** User-friendly design with easy navigation.
+- **GitHub Authentication:** Securely log in using your GitHub account.
+- **Responsive Design:** Access the tool from various devices with a responsive layout.
 
-To learn more about Next.js, take a look at the following resources:
+## Technologies Used
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Next.js:** React framework for building web applications.
+- **React:** JavaScript library for building user interfaces.
+- **SWR:** React Hooks library for data fetching.
+- **Tailwind CSS:** Utility-first CSS framework for styling.
+- **Schadcn UI:** React component library for building UI.
+- **Zod:** TypeScript-first schema declaration and validation library.
+- **Vercel:** Cloud platform for static sites and serverless functions.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Installation
 
-## Deploy on Vercel
+To run the Unfollowers Finder for GitHub web app locally, follow these steps:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Clone the repository:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+   ```bash
+   git clone https://github.com/yusufie/unfollowers-finder-github.git
+    ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd unfollowers-finder-github
+   ```
+
+3. Install the dependencies:
+
+   ```bash
+    npm install
+    ```
+
+4. Create a `.env.local` file in the root directory and add the following environment variables:
+
+    ```bash
+    MONGODB_URI=<your mongodb uri>
+    ```
+
+5. Run the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+6. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+### Database
+The application do not use any database. It uses the GitHub API to fetch the data.
+
+## Contributing
+
+Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request. Follow these steps to contribute:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make the necessary changes and commit those changes.
+4. Push your code to your forked repository.
+5. Submit a pull request describing the changes you made.
+
+Please make sure to follow the existing code style and conventions.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
+Feel free to explore the codebase and make it your own! If you have any questions, reach out to the project maintainers or create an issue on GitHub.
+
+We hope you find Unfollowers Finder for GitHub useful to manage your GitHub network effortlessly! Enjoy the application and stay informed about the people you follow on GitHub!
+
+Feel free to modify the content according to your specific project details, and customize the sections as per your requirements.
+
+Also, don't forget to star the repository if you like the project. Happy Coding! :rocket:

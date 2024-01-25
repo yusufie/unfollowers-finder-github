@@ -5,15 +5,11 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
+import CardDemo from "@/components/Cards/UserCard";
+import SkeletonDemo from "@/components/Loading/Skeleton";
 import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+import { 
+  Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 
@@ -128,18 +124,14 @@ export default function InputForm() {
     </Form>
 
     {loading ? (
-        <div className="mt-4">Loading...</div>
+        <SkeletonDemo />
       ) : (
         <>
           {unfollowers.length > 0 && (
-            <div className="mt-4">
-              <h2 className="text-xl font-semibold">Unfollowers:</h2>
-              <ul>
-                {unfollowers.map((unfollower) => (
-                  <li key={unfollower.id}>{unfollower.login}</li>
-                ))}
-              </ul>
-            </div>
+      
+              unfollowers.map((unfollower) => (
+                <CardDemo key={unfollower.id} unfollower={unfollower} />
+              ))
           )}
         </>
       )}

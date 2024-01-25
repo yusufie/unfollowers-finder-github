@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { Card } from "@/components/ui/card"
 
@@ -14,8 +15,9 @@ type CardProps = React.ComponentProps<typeof Card> & {
 
 export default function CardDemo({ className, unfollower, ...props }: CardProps) {
   return (
+    <Link href={`${unfollower.html_url}`} >
     <Card 
-      className={cn("w-1/2 flex flex-row items-center gap-8 p-4", className)} {...props}
+      className={cn("flex flex-row items-center w-96 gap-8 p-4", className)} {...props}
       >
           <Image
             src={unfollower.avatar_url}
@@ -33,5 +35,6 @@ export default function CardDemo({ className, unfollower, ...props }: CardProps)
           </div>
 
     </Card>
+    </Link>
   )
 }

@@ -96,15 +96,18 @@ export default function InputForm() {
   return (
     <>
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-1/2 space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-row items-center justify-center w-full max-w-[50rem]  gap-16 text-base">
         <FormField
           control={form.control}
           name="username"
           render={({ field }) => (
-            <FormItem>
-              {/* <FormLabel>Username</FormLabel> */}
+            <FormItem className="w-full">
+              <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="Username" {...field} />
+                <Input 
+                placeholder="Enter your GitHub username" {...field} 
+                className="text-base"
+                />
               </FormControl>
               <FormDescription>
                 Find out who unfollowed you on GitHub
@@ -113,27 +116,32 @@ export default function InputForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">
+        <Button type="submit" className="ml-auto text-base" >
           {loading && ( 
             <span> loading... </span>
           ) || (
-            <span> Get Unfollowers </span>
+            <span> Find Unfollowers </span>
           )}
         </Button>
       </form>
     </Form>
 
     {loading ? (
-        <SkeletonDemo />
+        <div className="grid grid-cols-2 gap-4 " >
+          <SkeletonDemo />
+        </div>
       ) : (
-        <>
+        <div className="grid grid-cols-2 gap-4 pb-20 " >
           {unfollowers.length > 0 && (
       
               unfollowers.map((unfollower) => (
                 <CardDemo key={unfollower.id} unfollower={unfollower} />
               ))
           )}
-        </>
+        </div>
+      )}
+      {unfollowers.length === 0 && (
+        <p className="text-2xl font-bold text-primary ">No unfollowers found</p>
       )}
     </>
   )

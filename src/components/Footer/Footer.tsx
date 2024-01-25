@@ -1,16 +1,21 @@
+import Link from "next/link";
+import Image from "next/image";
 import { ModeToggle } from "@/components/ui/theme-toggle";
 import { Card, CardHeader, CardTitle, } from "@/components/ui/card"
 
 const Footer: React.FC = () => {
   return (
-    <Card className=" fixed bottom-8 flex flex-row justify-center items-center gap-4 w-1/2 h-12" >
+    <Card className=" fixed bottom-4 flex flex-row justify-center items-center w-[50rem] h-12" >
 
-      <CardHeader>
-        <CardTitle>Star GitHub Repository </CardTitle>
-      </CardHeader>
+      <Image src={"/icons/star-filled.svg"} width={24} height={24} alt="star" />
 
-      <ModeToggle />
-    </Card>
+      <Link href={"https://github.com/yusufie/unfollowers-finder-github"} >
+        <CardHeader>
+          <CardTitle>Star GitHub Repository </CardTitle>
+        </CardHeader>
+      </Link>
+        <ModeToggle />
+      </Card>
   )
 }
 

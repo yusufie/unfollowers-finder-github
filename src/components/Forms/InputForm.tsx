@@ -1,6 +1,5 @@
 "use client"
 import * as React from "react"
-import useSWR from 'swr';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -19,14 +18,6 @@ const FormSchema = z.object({
   }),
 })
 
-const fetcher = async (url: any) => {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error('API request failed');
-  }
-  return response.json();
-};
-
 export default function InputForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -35,50 +26,58 @@ export default function InputForm() {
     },
   })
 
-  // Remove @ symbol if present in username
-  const sanitizedUsername = form.watch('username')?.replace('@', '');
-
-  // SWR Hooks for Following and Followers with error handling
-  const { data: followingData, error: followingError } = useSWR(
-    sanitizedUsername ? `https://api.github.com/users/${sanitizedUsername}/following?per_page=100` : null,
-    fetcher
-  );
-
-  const { data: followersData, error: followersError } = useSWR(
-    sanitizedUsername ? `https://api.github.com/users/${sanitizedUsername}/followers?per_page=100` : null,
-    fetcher
-  );
-
-  // loading state while the API request is in progress
   const [loading, setLoading] = React.useState(false);
-  // State to store unfollowers
   const [unfollowers, setUnfollowers] = React.useState<any[]>([]);
-  // State to store error message
   const [error, setError] = React.useState<string | null>(null);
+
+  // Function to fetch data from GitHub API
+  const fetchGitHubData = async (url: string) => {
+    const response = await fetch(url);
+    if (!response?.ok) {
+      throw new Error(`GitHub API request failed: ${response?.statusText}`);
+    }
+    return response.json();
+  };
+
+  // Function to fetch all pages for a paginated API
+  const fetchAllPages = async (url: string) => {
+    let allData: any[] = [];
+    let page = 1;
+
+    while (true) {
+      const data = await fetchGitHubData(`${url}&page=${page}`);
+      if (data?.length === 0) {
+        break;
+      }
+      allData = allData?.concat(data);
+      page++;
+    }
+
+    return allData;
+  };
 
   // Function to handle form submission
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     setError(null);
     setLoading(true);
+    setUnfollowers([]);
     
     try {
       // Remove @ symbol if present
       const cleanUsername = data?.username?.replace('@', '');
 
-      // Access followingData and followersData here
-      if (followingData && followersData) {
-        // Fetch all pages for followings and followers
-        const allFollowings = await fetchAllPages(`https://api.github.com/users/${cleanUsername}/following?per_page=100`);
-        const allFollowers = await fetchAllPages(`https://api.github.com/users/${cleanUsername}/followers?per_page=100`);
+      // Fetch both following and followers data
+      const [following, followers] = await Promise.all([
+        fetchAllPages(`https://api.github.com/users/${cleanUsername}/following?per_page=100`),
+        fetchAllPages(`https://api.github.com/users/${cleanUsername}/followers?per_page=100`)
+      ]);
 
-        // Identify users who are not following back
-        const notFollowing = allFollowings?.filter((follow: any) => (
-          !allFollowers?.some((follower:any) => follower?.login === follow?.login)
-        ));
+      // Identify users who are not following back
+      const notFollowing = following?.filter((follow) => 
+        !followers?.some((follower) => follower?.login === follow?.login)
+      );
 
-        // Update state to store unfollowers
-        setUnfollowers(notFollowing);
-      }
+      setUnfollowers(notFollowing);
     } catch (err) {
       setError('Failed to fetch GitHub data. Please check the username and try again.');
       setUnfollowers([]);
@@ -86,29 +85,6 @@ export default function InputForm() {
       setLoading(false);
     }
   }
-
-  // Function to fetch all pages for a paginated API
-  const fetchAllPages = async (url: string) => {
-    let allData: any = [];
-    let page = 1;
-
-    while (true) {
-      const response = await fetch(`${url}&page=${page}`);
-      if (!response.ok) {
-        throw new Error(`GitHub API request failed: ${response?.statusText}`);
-      }
-      const data = await response?.json();
-
-      if (data.length === 0) {
-        break;
-      }
-
-      allData = allData?.concat(data);
-      page++;
-    }
-
-    return allData;
-  };
 
   return (
     <>
@@ -125,7 +101,7 @@ export default function InputForm() {
                     placeholder="Enter GitHub username (without @)" 
                     {...field} 
                     className="text-base"
-                    onChange={(e) => field.onChange(e.target.value.replace('@', ''))}
+                    onChange={(e) => field?.onChange(e.target.value.replace('@', ''))}
                   />
                 </FormControl>
                 <FormDescription>

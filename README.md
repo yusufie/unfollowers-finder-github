@@ -2,8 +2,8 @@
 
 Unfollowers Finder for GitHub is a web application that helps you identify users you are following on GitHub but who are not following you back. This tool simplifies the process of managing your GitHub network and staying informed about your connections.
 
-## Live Demo
-Check out the live demo of Unfollowers Finder for GitHub: [https://unfollowers-finder-github.netlify.app/](https://unfollowers-finder-github.netlify.app/)
+## Live 
+Check out the live @ https://unfollo.ws
 
 ![Unfollowers Finder](/public/images/unfollowers-finder-github.gif)
 

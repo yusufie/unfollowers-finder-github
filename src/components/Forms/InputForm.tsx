@@ -29,6 +29,7 @@ export default function InputForm() {
   const [loading, setLoading] = React.useState(false);
   const [unfollowers, setUnfollowers] = React.useState<any[]>([]);
   const [error, setError] = React.useState<string | null>(null);
+  const [hasSearched, setHasSearched] = React.useState(false);
 
   // Function to fetch data from GitHub API
   const fetchGitHubData = async (url: string) => {
@@ -61,6 +62,7 @@ export default function InputForm() {
     setError(null);
     setLoading(true);
     setUnfollowers([]);
+    setHasSearched(true);
     
     try {
       // Remove @ symbol if present
@@ -135,7 +137,7 @@ export default function InputForm() {
         </div>
       )}
       
-      {!loading && !error && unfollowers?.length === 0 && (
+      {!loading && !error && hasSearched && unfollowers?.length === 0 && (
         <p className="text-2xl font-bold text-primary">No unfollowers found</p>
       )}
     </>

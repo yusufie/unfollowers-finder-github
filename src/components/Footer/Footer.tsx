@@ -9,9 +9,9 @@ const Footer: React.FC = () => {
 
       <Image src={"/icons/star-filled.svg"} width={24} height={24} alt="star" />
 
-      <Link href={"https://github.com/yusufie/unfollowers-finder-github"} >
+      <Link href={"https://github.com/HappyHackingSpace/unfollowers-finder-github"} >
         <CardHeader>
-          <CardTitle>Star GitHub Repository </CardTitle>
+          <CardTitle>Star GitHub Repository</CardTitle>
         </CardHeader>
       </Link>
         <ModeToggle />

@@ -39,7 +39,7 @@ To run the Unfollowers Finder for GitHub web app locally, follow these steps:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yusufie/unfollowers-finder-github.git
+   git clone https://github.com/HappyHackingSpace/unfollowers-finder-github.git
     ```
 
 2. Navigate to the project directory:
@@ -54,13 +54,7 @@ To run the Unfollowers Finder for GitHub web app locally, follow these steps:
     npm install
     ```
 
-4. Create a `.env.local` file in the root directory and add the following environment variables:
-
-    ```bash
-    MONGODB_URI=<your mongodb uri>
-    ```
-
-5. Run the development server:
+4. Run the development server:
 
    ```bash
    npm run dev

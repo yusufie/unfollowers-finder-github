@@ -91,7 +91,7 @@ export default function InputForm() {
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-row items-center justify-center w-full max-w-[50rem] max-lg:w-[25rem] gap-16 max-lg:gap-4 text-base">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col lg:flex-row items-center justify-center w-full max-w-[50rem] max-lg:w-[25rem] gap-16 max-lg:gap-4 text-base">
           <FormField
             control={form.control}
             name="username"

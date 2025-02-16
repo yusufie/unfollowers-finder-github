@@ -26,7 +26,6 @@ Check out the live @ https://unfollo.ws
 
 - **Next.js:** React framework for building web applications.
 - **React:** JavaScript library for building user interfaces.
-- **SWR:** React Hooks library for data fetching.
 - **Tailwind CSS:** Utility-first CSS framework for styling.
 - **Schadcn UI:** React component library for building UI.
 - **Zod:** TypeScript-first schema declaration and validation library.

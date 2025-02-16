@@ -15,7 +15,7 @@ type CardProps = React.ComponentProps<typeof Card> & {
 
 export default function CardDemo({ className, unfollower, ...props }: CardProps) {
   return (
-    <Link href={`${unfollower.html_url}`} >
+    <Link href={`${unfollower.html_url}`} target="_blank">
     <Card 
       className={cn("flex flex-row items-center w-96 gap-8 p-4", className)} {...props}
       >
